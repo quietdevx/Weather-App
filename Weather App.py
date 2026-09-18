@@ -3,7 +3,7 @@ import requests
 geo = "https://geocoding-api.open-meteo.com/v1/search" # api for the city to coords
 url = "https://api.open-meteo.com/v1/forecast"# api for cords to weather
 
-city = input("Enter city: ")
+city = input("Enter city: ").strip()
 
 geo_params = {
     "name": city
