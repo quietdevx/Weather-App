@@ -1,34 +1,59 @@
 import requests
 
-geo = "https://geocoding-api.open-meteo.com/v1/search" # api for the city to coords
-url = "https://api.open-meteo.com/v1/forecast"# api for cords to weather
 
-city = input("Enter city: ").strip()
+def search_again():
+    new_search = input("Do you want to search again? Y/N: ").strip().upper()
+    if new_search == "Y":
+        return True
+    else:
+        return False
 
-geo_params = {
-    "name": city
-}
 
-geodata = requests.get(geo, params=geo_params).json()
+while True:
 
-latitude = geodata["results"][0]["latitude"]
-longitude = geodata["results"][0]["longitude"]
+    print("=" * 30)
+    print("      WEATHER APP")
+    print("=" * 30)
 
-coords = {
-    "latitude": latitude,
-    "longitude": longitude,
-    "current": "temperature_2m,wind_speed_10m"
-}
+    geo = "https://geocoding-api.open-meteo.com/v1/search"
+    url = "https://api.open-meteo.com/v1/forecast"
 
-response = requests.get(url, params=coords)
+    city = input("Enter city: ").strip()
 
-data = response.json()
+    try:
+        geo_params = {
+            "name": city
+        }
 
-current_data = data["current"]
+        geodata = requests.get(geo, params=geo_params).json()
 
-temp = current_data["temperature_2m"]
-wind = current_data["wind_speed_10m"]
+        latitude = geodata["results"][0]["latitude"]
+        longitude = geodata["results"][0]["longitude"]
 
-if response.status_code == 200:
-    print(f"Temperature: {temp}°C")
-    print(f"Wind speed: {wind} km/h")
+        coords = {
+            "latitude": latitude,
+            "longitude": longitude,
+            "current": "temperature_2m,wind_speed_10m"
+        }
+
+        response = requests.get(url, params=coords)
+
+        data = response.json()
+
+        current_data = data["current"]
+
+        temp = current_data["temperature_2m"]
+        wind = current_data["wind_speed_10m"]
+
+        print()
+        print(f"Temperature: {temp}°C")
+        print(f"Wind speed: {wind} km/h")
+
+    except (KeyError, IndexError):
+        print()
+        print("City not found.")
+        print("Please enter a full city name or valid place.")
+
+    if not search_again():
+        print("Goodbye!")
+        break
