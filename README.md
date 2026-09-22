@@ -1,4 +1,4 @@
-# **Weather Teller**
+# **Weather App**
 
 This is a Python project I made while learning Python.
 
