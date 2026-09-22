@@ -35,7 +35,7 @@ def search():
         error_label.pack_forget()
         temperature_label.config(text=f"Temperature: {temp}°C")
         wind_label.config(text=f"Wind speed: {wind} km/h")
-    except (KeyError, IndexError, AttributeError):
+    except (KeyError, IndexError):
         wind_label.config(text="")
         temperature_label.config(text="")
         error_label.config(text="City not found. Please enter a valid city or full city name.")
